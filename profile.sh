@@ -35,7 +35,7 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         curl https://packages.microsoft.com/config/ubuntu/18.04/multiarch/prod.list > ./microsoft-prod.list && \
         cp ./microsoft-prod.list /etc/apt/sources.list.d/ && \
         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
-		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/
+		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages}\"'" \
     ${PROVISION_LOG}
