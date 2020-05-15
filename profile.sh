@@ -12,7 +12,7 @@ source /opt/bootstrap/functions
 
 # --- Add Packages
 ubuntu_bundles="openssh-server"
-ubuntu_packages="wget"
+ubuntu_packages="wget iotedge"
 
 # --- List out any docker images you want pre-installed separated by spaces. ---
 pull_sysdockerimagelist=""
@@ -32,6 +32,10 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         \"$(echo ${INLINE_PROXY} | sed "s#'#\\\\\"#g") export TERM=xterm-color && \
         export DEBIAN_FRONTEND=noninteractive && \
         apt install -y tasksel && \
+        curl https://packages.microsoft.com/config/ubuntu/18.04/multiarch/prod.list > ./microsoft-prod.list && \
+        cp ./microsoft-prod.list /etc/apt/sources.list.d/ && \
+        curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
+		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages}\"'" \
     ${PROVISION_LOG}
