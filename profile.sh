@@ -39,17 +39,20 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		apt update && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages} && \
-        systemctl stop iotedge && \
-        rm -f /etc/iotedge/config.yaml && \
-        curl https://github.com/grubis/rni-profile-base-ubuntu/blob/azure-iot/conf/iotagentconfig.yaml > /etc/iotdge/config.yaml && \
-        UUID=$(dmidecode -s system-uuid) && \
-        UUID=${UUID//-} && \
-        sed -i "s/<SYMMETRIC_KEY>/$UUID/g" /etc/iotedge/config.yml && \
-        SN=$(dmidecode -s system-serial-number) && \
-        sed -i "s/<REGISTRATION_ID>/$SN/g" /etc/iotedge/config.yml\"'" \
+        systemctl stop iotedge\"'" \
     ${PROVISION_LOG}
     
-
+# --- Configure Azure IoT Edge ---
+run "Configuring Azure IoT Edge agent" \
+	"rm -f /etc/iotedge/config.yaml && \
+    wget --header "Authorization: token ${param_token}" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/config.yaml && \
+    export UUID=$(dmidecode -s system-uuid) && \
+    export UUID=${UUID//-} && \
+    sed -i "s/<SYMMETRIC_KEY>/$UUID/g" /etc/iotedge/config.yaml && \
+    export SN=$(dmidecode -s system-serial-number) && \
+    sed -i "s/<REGISTRATION_ID>/$SN/g" /etc/iotedge/config.yaml\"'" \
+	${PROVISION_LOG}
+	
 # --- Pull any and load any system images ---
 for image in $pull_sysdockerimagelist; do
 	run "Installing system-docker image $image" "docker exec -i system-docker docker pull $image" "$TMP/provisioning.log"
