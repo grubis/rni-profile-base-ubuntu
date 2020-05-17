@@ -41,7 +41,12 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         apt install -y ${ubuntu_packages} && \
         systemctl stop iotedge && \
         rm -f /etc/iotedge/config.yaml && \
-        curl https://github.com/grubis/rni-profile-base-ubuntu/blob/azure-iot/conf/iotagentconfig.yaml > /etc/iotdge/config.yaml\"'" \
+        curl https://github.com/grubis/rni-profile-base-ubuntu/blob/azure-iot/conf/iotagentconfig.yaml > /etc/iotdge/config.yaml && \
+        UUID=$(dmidecode -s system-uuid) && \
+        UUID=${UUID//-} && \
+        sed -i "s/<SYMMETRIC_KEY>/$UUID/g" /etc/iotedge/config.yml && \
+        SN=$(dmidecode -s system-serial-number) && \
+        sed -i "s/<REGISTRATION_ID>/$SN/g" /etc/iotedge/config.yml\"'" \
     ${PROVISION_LOG}
     
 
