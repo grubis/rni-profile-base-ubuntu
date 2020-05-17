@@ -1,0 +1,42 @@
+###############################################################################
+#                      IoT Edge Daemon configuration
+###############################################################################
+#
+# This file configures the IoT Edge daemon. The daemon must be restarted to
+# pick up any configuration changes.
+#
+# Note - this file is yaml. Learn more here: http://yaml.org/refcard.html
+#
+###############################################################################
+
+provisioning:
+  source: "dps"
+  global_endpoint: "https://global.azure-devices-provisioning.net"
+  scope_id: "<SCOPE_ID>"
+  attestation:
+    method: "symmetric_key"
+    registration_id: "<REGISTRATION_ID>"
+    symmetric_key: "<SYMMETRIC_KEY>"
+
+agent:
+  name: "edgeAgent"
+  type: "docker"
+  env: {}
+  config:
+    image: "mcr.microsoft.com/azureiotedge-agent:1.0"
+    auth: {}
+
+hostname: "<ADD HOSTNAME HERE>"
+
+connect:
+  management_uri: "unix:///var/lib/iotedge/mgmt.sock"
+  workload_uri: "unix:///var/lib/iotedge/workload.sock"
+
+listen:
+  management_uri: "unix:///var/lib/iotedge/mgmt.sock"
+  workload_uri: "unix:///var/lib/iotedge/workload.sock"
+
+homedir: "/var/lib/iotedge"
+
+moby_runtime:
+  uri: "unix:///var/run/docker.sock"
