@@ -40,6 +40,9 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages}\"'" \
     ${PROVISION_LOG}
+    
+# --- Configure Azure IoT Agent ---
+
 
 # --- Pull any and load any system images ---
 for image in $pull_sysdockerimagelist; do
@@ -48,5 +51,3 @@ done
 for image in $wget_sysdockerimagelist; do
 	run "Installing system-docker image $image" "wget -O- $image 2>> $TMP/provisioning.log | docker exec -i system-docker docker load" "$TMP/provisioning.log"
 done
-
-echo $param_azurescopeid
