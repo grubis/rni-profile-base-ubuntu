@@ -38,11 +38,12 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
 		apt update && \
         tasksel install ${ubuntu_bundles} && \
-        apt install -y ${ubuntu_packages}\"'" \
+        apt install -y ${ubuntu_packages} && \
+        systemctl stop iotedge && \
+        rm -f /etc/iotedge/config.yaml && \
+        curl https://github.com/grubis/rni-profile-base-ubuntu/blob/azure-iot/conf/iotagentconfig.yaml > /etc/iotdge/config.yaml\"'" \
     ${PROVISION_LOG}
     
-# --- Configure Azure IoT Agent ---
-
 
 # --- Pull any and load any system images ---
 for image in $pull_sysdockerimagelist; do
