@@ -48,3 +48,5 @@ done
 for image in $wget_sysdockerimagelist; do
 	run "Installing system-docker image $image" "wget -O- $image 2>> $TMP/provisioning.log | docker exec -i system-docker docker load" "$TMP/provisioning.log"
 done
+
+echo $param_azurescopeid
