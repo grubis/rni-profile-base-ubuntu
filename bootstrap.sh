@@ -32,4 +32,4 @@ fi
 # --- Call pre.sh from base_profile ---
 source <(wget --header "Authorization: token ${param_token}" -O - ${param_basebranch}/pre.sh) && \
 wget --header "Authorization: token ${param_token}" -O - ${param_bootstrapurl}/profile.sh | bash -s - $param_httpserver && \
-# wget --header "Authorization: token ${param_token}" -O - ${param_basebranch}/post.sh | bash -s - $param_httpserver
+wget --header "Authorization: token ${param_token}" -O - ${param_basebranch}/post.sh | bash -s - $param_httpserver
