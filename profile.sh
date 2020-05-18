@@ -37,6 +37,7 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
 		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
 		mkdir /etc/iotedge && \
+		wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \
 		apt update && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages} && \
