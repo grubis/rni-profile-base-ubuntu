@@ -35,8 +35,10 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         curl https://packages.microsoft.com/config/ubuntu/18.04/multiarch/prod.list > ./microsoft-prod.list && \
         cp ./microsoft-prod.list /etc/apt/sources.list.d/ && \
         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
-		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
-		apt update && \
+	cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
+	curl -L https://github.com/Azure/azure-iotedge/releases/download/1.0.9.1/libiothsm-std_1.0.9.1-1-1_amd64.deb -o libiothsm-std.deb && \
+	dpkg -i ./libiothsm-std.deb && \
+	apt update && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages} && \
         sleep 10 && \    
