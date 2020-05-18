@@ -32,6 +32,7 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         \"$(echo ${INLINE_PROXY} | sed "s#'#\\\\\"#g") export TERM=xterm-color && \
         export DEBIAN_FRONTEND=noninteractive && \
         apt install -y tasksel && \
+	apt install -y curl gpg && \
         curl https://packages.microsoft.com/config/ubuntu/18.04/multiarch/prod.list > ./microsoft-prod.list && \
         cp ./microsoft-prod.list /etc/apt/sources.list.d/ && \
         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
