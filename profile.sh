@@ -37,7 +37,7 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
 		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
 		mkdir /etc/iotedge && \
-		wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \
+		wget ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \
 		apt update && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages} && \
@@ -47,18 +47,14 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
     	sed -i \"s#<SYMMETRIC_KEY>#$UUID#g\" /etc/iotedge/config.yaml && \
     	sed -i \"s#<REGISTRATION_ID>#$SN#g\" /etc/iotedge/config.yaml\"'" \
      ${PROVISION_LOG}  
-#   wget --header "Authorization: token ${param_token}" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \     
-# 	apt install -y ${ubuntu_packages} && \
-#        sleep 10 && \    
+#   wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \    
 #    	export UUID=$(dmidecode -s system-uuid) && \
 #    	export UUID=${UUID//-} && \
 #    	sed -i "\s#<SYMMETRIC_KEY>#$UUID#g\" /etc/iotedge/config.yaml && \
 #    	export SN=$(dmidecode -s system-serial-number) && \
 #    	sed -i "\s#<REGISTRATION_ID>#$SN#g\" /etc/iotedge/config.yaml\"'" \
-#    ${PROVISION_LOG}
-    
+
 # rm -f /etc/iotedge/config.yaml && \
-#   	wget --header "Authorization: token ${param_token}" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/config.yaml && \
     
 # --- Pull any and load any system images ---
 for image in $pull_sysdockerimagelist; do
