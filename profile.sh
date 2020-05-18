@@ -37,7 +37,6 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
 		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
 		mkdir /etc/iotedge && \
-		wget --header "Authorization: token ${param_token}" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \
 		apt update && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages} && \
@@ -45,14 +44,15 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         export UUID=$(dmidecode -s system-uuid) && \
     	export UUID=${UUID//-}\"'"\
      ${PROVISION_LOG}  
-#        apt install -y ${ubuntu_packages} && \
+#   wget --header "Authorization: token ${param_token}" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \     
+# 	apt install -y ${ubuntu_packages} && \
 #        sleep 10 && \    
 #    	export UUID=$(dmidecode -s system-uuid) && \
 #    	export UUID=${UUID//-} && \
 #    	sed -i "s/<SYMMETRIC_KEY>/$UUID/g" /etc/iotedge/config.yaml && \
 #    	export SN=$(dmidecode -s system-serial-number) && \
 #    	sed -i "s/<REGISTRATION_ID>/$SN/g" /etc/iotedge/config.yaml\"'" \
-#    ${PROVISION_LOG} test
+#    ${PROVISION_LOG}
     
 # rm -f /etc/iotedge/config.yaml && \
 #   	wget --header "Authorization: token ${param_token}" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/config.yaml && \
