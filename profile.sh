@@ -43,16 +43,18 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         apt install -y ${ubuntu_packages} && \
         export SN=$(dmidecode -s system-serial-number) && \
         export UUID=$(dmidecode -s system-uuid) && \
-    	export UUID=${UUID//-}\"'"\
+    	export UUID=${UUID//-} && \
+    	sed -i \"s#<SYMMETRIC_KEY>#$UUID#g\" /etc/iotedge/config.yaml && \
+    	sed -i \"s#<REGISTRATION_ID>#$SN#g\" /etc/iotedge/config.yaml\"'" \
      ${PROVISION_LOG}  
 #   wget --header "Authorization: token ${param_token}" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \     
 # 	apt install -y ${ubuntu_packages} && \
 #        sleep 10 && \    
 #    	export UUID=$(dmidecode -s system-uuid) && \
 #    	export UUID=${UUID//-} && \
-#    	sed -i "s/<SYMMETRIC_KEY>/$UUID/g" /etc/iotedge/config.yaml && \
+#    	sed -i "\s#<SYMMETRIC_KEY>#$UUID#g\" /etc/iotedge/config.yaml && \
 #    	export SN=$(dmidecode -s system-serial-number) && \
-#    	sed -i "s/<REGISTRATION_ID>/$SN/g" /etc/iotedge/config.yaml\"'" \
+#    	sed -i "\s#<REGISTRATION_ID>#$SN#g\" /etc/iotedge/config.yaml\"'" \
 #    ${PROVISION_LOG}
     
 # rm -f /etc/iotedge/config.yaml && \
