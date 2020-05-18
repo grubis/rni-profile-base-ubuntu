@@ -38,7 +38,8 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
 		apt update && \
         tasksel install ${ubuntu_bundles} && \
-        apt install -y ${ubuntu_packages} && \    
+        apt install -y ${ubuntu_packages} && \
+        sleep 10 && \    
     	export UUID=$(dmidecode -s system-uuid) && \
     	export UUID=${UUID//-} && \
     	sed -i \"s/<SYMMETRIC_KEY>/$UUID/g\" /etc/iotedge/config.yaml && \
