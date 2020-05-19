@@ -45,7 +45,7 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         export UUID=$(dmidecode -s system-uuid) && \
     	export UUID=${UUID//-} && \
     	sed -i \"s#<SYMMETRIC_KEY>#$UUID#g\" /etc/iotedge/config.yaml && \
-#   	sed -i \"s#<REGISTRATION_ID>#$SN#g\" /etc/iotedge/config.yaml\"'" \
+	   	sed -i \"s#<REGISTRATION_ID>#$SN#g\" /etc/iotedge/config.yaml\"'" \
      ${PROVISION_LOG}  
 #   wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \    
 #		sed -i \"s#<SYMMETRIC_KEY>#$UUID#g\" /etc/iotedge/config.yaml && \
