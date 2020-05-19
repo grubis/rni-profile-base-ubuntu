@@ -42,7 +42,7 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         apt install -y ${ubuntu_packages} && \
         dmidecode -s system-uuid | sed 's:-::g' > /etc/iotedge/uuid.txt
         dmidecode -s system-serial-number > /etc/iotedge/serial.txt
-        sed -i 's#<SYMMETRIC_KEY>#$(echo /etc/iotedge/uuid.txt)#g' /etc/iotedge/config.yaml && \
+        sed -i \"s#<SYMMETRIC_KEY>#$(</etc/iotedge/uuid.txt sed 's/[\&/]/\\&/g')#g\" /etc/iotedge/config.yaml && \
 	   	sed -i 's#<REGISTRATION_ID>#'\"$(dmidecode -s system-serial-number)#g\" /etc/iotedge/config.yaml\"'" \
      ${PROVISION_LOG}  
 #		systemctl stop iotedge && \   
