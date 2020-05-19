@@ -40,7 +40,7 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		apt update && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages} && \
-        sed -i 's#<SYMMETRIC_KEY>#'\"$(dmidecode -s system-uuid | sed 's#-##g')#g\" /etc/iotedge/config.yaml && \
+        sed -i 's#<SYMMETRIC_KEY>#'""$(dmidecode -s system-uuid | sed 's:-::g')#g"" /etc/iotedge/config.yaml && \
 	   	sed -i 's#<REGISTRATION_ID>#'\"$(dmidecode -s system-serial-number)#g\" /etc/iotedge/config.yaml\"'" \
      ${PROVISION_LOG}  
 #		systemctl stop iotedge && \   
