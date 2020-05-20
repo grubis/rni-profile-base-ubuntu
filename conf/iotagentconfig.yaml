@@ -21,7 +21,8 @@ provisioning:
 agent:
   name: "edgeAgent"
   type: "docker"
-  env: {}
+  env:
+    customer: "Matt"
   config:
     image: "mcr.microsoft.com/azureiotedge-agent:1.0"
     auth: {}
