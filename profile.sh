@@ -8,7 +8,10 @@ set -a
 #this is provided while using Utility OS
 source /opt/bootstrap/functions
 
-
+if [[ $kernel_params == *"azurescopeid="* ]]; then
+	tmp="${kernel_params##*azurescopeid=}"
+	export param_azurescopeid="${tmp%% *}"
+fi
 
 # --- Add Packages
 ubuntu_bundles="openssh-server"
@@ -48,9 +51,10 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 
 echo "Applying IoT Configuration" > dev/tty0
 rm -f $ROOTFS/etc/iotedge/config.yaml
-wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > $ROOTFS/etc/iotedge/iotagentconfig.yaml
+wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > $ROOTFS/etc/iotedge/config.yaml
 sed -i "s#<SYMMETRIC_KEY>#$(<$ROOTFS/etc/iotedge/uuid.txt sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
 sed -i "s#<REGISTRATION_ID>#$(<$ROOTFS/etc/iotedge/serial.txt sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
+sed -i "s#<SCOPE_ID>#${param_azurescopeid}#g" $ROOTFS/etc/iotedge/config.yaml
     
 # --- Pull any and load any system images ---
 for image in $pull_sysdockerimagelist; do
