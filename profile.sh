@@ -38,23 +38,18 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		apt update && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages} && \
+        systemctl stop iotedge && \
         dmidecode -s system-uuid | sed 's:-::g' > /etc/iotedge/uuid.txt && \
         dmidecode -s system-serial-number > /etc/iotedge/serial.txt\"'" \
      ${PROVISION_LOG}  
-#       sed -i \"s#<SYMMETRIC_KEY>#\$(</etc/iotedge/uuid.txt sed 's/[\\&/]/\\\\&/g')#g\" /etc/iotedge/config.yaml && \
-#	   	sed -i \"s#<REGISTRATION_ID>#\$(</etc/iotedge/serial.txt sed 's/[\\&/]/\\\\&/g')#g\" /etc/iotedge/config.yaml\"'" \
-#		systemctl stop iotedge && \   
+
+#		  
 #		wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \    
-#		sed -i \"s#<SYMMETRIC_KEY>#$UUID#g\" /etc/iotedge/config.yaml && \
-#   	sed -i \"s#<REGISTRATION_ID>#$SN#g\" /etc/iotedge/config.yaml\"'" \    	
-#		export UUID=$(dmidecode -s system-uuid) && \
-#    	export UUID=${UUID//-} && \
-#    	sed -i "\s#<SYMMETRIC_KEY>#$UUID#g\" /etc/iotedge/config.yaml && \
-#    	export SN=$(dmidecode -s system-serial-number) && \
-#    	sed -i "\s#<REGISTRATION_ID>#$SN#g\" /etc/iotedge/config.yaml\"'" \
 
-# rm -f /etc/iotedge/config.yaml && \
-
+echo "Applying IoT Configuration" > dev/tty0
+rm -f $ROOTFS/etc/iotedge/config.yaml
+wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > $ROOTFS/etc/iotedge/iotagentconfig.yaml
+sed -i "s#<SYMMETRIC_KEY>#$(<$ROOTFS/etc/iotedge/uuid.txt sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
 sed -i "s#<REGISTRATION_ID>#$(<$ROOTFS/etc/iotedge/serial.txt sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
     
 # --- Pull any and load any system images ---
