@@ -8,6 +8,8 @@ set -a
 #this is provided while using Utility OS
 source /opt/bootstrap/functions
 
+kernel_params=$(cat /proc/cmdline)
+
 if [[ $kernel_params == *"azurescopeid="* ]]; then
 	tmp="${kernel_params##*azurescopeid=}"
 	export param_azurescopeid="${tmp%% *}"
