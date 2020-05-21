@@ -58,7 +58,7 @@ wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}
 sed -i "s#<SYMMETRIC_KEY>#$(<$ROOTFS/etc/iotedge/uuid.txt sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
 sed -i "s#<REGISTRATION_ID>#$(<$ROOTFS/etc/iotedge/serial.txt sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
 sed -i "s#<SCOPE_ID>#${param_azurescopeid}#g" $ROOTFS/etc/iotedge/config.yaml
-sed -i "s#<ADD HOSTNAME HERE>#(<$ROOTFS/etc/iotedge/hostname.txt sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
+sed -i "s#<ADD HOSTNAME HERE>#$(<$ROOTFS/etc/iotedge/hostname.txt sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
     
 # --- Pull any and load any system images ---
 for image in $pull_sysdockerimagelist; do
