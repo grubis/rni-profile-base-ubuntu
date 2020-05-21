@@ -45,11 +45,9 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         apt install -y ${ubuntu_packages} && \
         systemctl stop iotedge && \
         dmidecode -s system-uuid | sed 's:-::g' > /etc/iotedge/uuid.txt && \
-        dmidecode -s system-serial-number > /etc/iotedge/serial.txt && \
-        hostname > /etc/iotedge/hostname.txt\"'" \
+        dmidecode -s system-serial-number > /etc/iotedge/serial.txt\"'" \
      ${PROVISION_LOG}  
 
-#		  
 #		wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \    
 
 echo "Applying IoT Configuration" > dev/tty0
@@ -58,7 +56,7 @@ wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}
 sed -i "s#<SYMMETRIC_KEY>#$(<$ROOTFS/etc/iotedge/uuid.txt sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
 sed -i "s#<REGISTRATION_ID>#$(<$ROOTFS/etc/iotedge/serial.txt sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
 sed -i "s#<SCOPE_ID>#${param_azurescopeid}#g" $ROOTFS/etc/iotedge/config.yaml
-sed -i "s#<ADD HOSTNAME HERE>#$(<$ROOTFS/etc/iotedge/hostname.txt sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
+sed -i "s#<ADD HOSTNAME HERE>#$(<$ROOTFS/etc/hostname sed 's/[\&/]/\\&/g')#g" $ROOTFS/etc/iotedge/config.yaml
     
 # --- Pull any and load any system images ---
 for image in $pull_sysdockerimagelist; do
