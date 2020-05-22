@@ -43,12 +43,12 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		apt update && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages} && \
-        systemctl stop iotedge && \
+        sleep 30 && \
         dmidecode -s system-uuid | sed 's:-::g' > /etc/iotedge/uuid.txt && \
         dmidecode -s system-serial-number > /etc/iotedge/serial.txt\"'" \
      ${PROVISION_LOG}  
 
-#		wget --header \"Authorization: token ${param_token}\" -O - ${param_bootstrapurl}/conf/iotagentconfig.yaml > /etc/iotedge/iotagentconfig.yaml && \    
+#		systemctl stop iotedge && \   
 
 echo "Applying IoT Configuration" > dev/tty0
 rm -f $ROOTFS/etc/iotedge/config.yaml
