@@ -17,7 +17,7 @@ fi
 
 # --- Add Packages
 ubuntu_bundles="openssh-server"
-ubuntu_packages="wget iotedge"
+ubuntu_packages="iotedge wget"
 
 # --- List out any docker images you want pre-installed separated by spaces. ---
 pull_sysdockerimagelist=""
@@ -43,7 +43,7 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		apt update && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages} && \
-        systemctl stop iotedge && \
+        sleep 30 && \
         chmod 777 /var/lib/iotedge/*.sock && \
         dmidecode -s system-uuid | sed 's:-::g' > /etc/iotedge/uuid.txt && \
         dmidecode -s system-serial-number > /etc/iotedge/serial.txt\"'" \
