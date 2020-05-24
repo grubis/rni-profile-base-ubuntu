@@ -450,7 +450,7 @@ if [ ! -z "${param_proxysocks}" ]; then
 fi
 
 # --- Install Extra Packages ---
-run "Installing Docker on Ubuntu ${param_ubuntuversion}" \
+run "Installing Moby on Ubuntu ${param_ubuntuversion}" \
     "docker run -i --rm --privileged --name ubuntu-installer ${DOCKER_PROXY_ENV} -v /dev:/dev -v /sys/:/sys/ -v $ROOTFS:/target/root ubuntu:${param_ubuntuversion} sh -c \
     'mount --bind dev /target/root/dev && \
     mount -t proc proc /target/root/proc && \
@@ -468,7 +468,7 @@ run "Installing Docker on Ubuntu ${param_ubuntuversion}" \
     apt-key fingerprint 0EBFCD88 && \
     sudo add-apt-repository \\\"deb [arch=amd64] https://download.docker.com/linux/ubuntu ${DOCKER_UBUNTU_RELEASE} stable\\\" && \
     apt-get update && \
-    apt-get install -y docker-ce docker-ce-cli containerd.io\"'" \
+    apt-get install -y moby-engine moby-cli containerd.io\"'" \
     "$TMP/provisioning.log"
 
 # --- If an insecure registry was provided, update config to allow it
@@ -482,10 +482,11 @@ run "Preparing system-docker database" \
     "mkdir -p $ROOTFS/var/lib/docker && \
     docker run -d --privileged --name system-docker ${DOCKER_PROXY_ENV} -v $ROOTFS/var/lib/docker:/var/lib/docker docker:stable-dind ${REGISTRY_MIRROR}" \
     "$TMP/provisioning.log"
-
+#
 # --- Installing docker compose ---
-run "Installing Docker Compose" \
-    "mkdir -p $ROOTFS/usr/local/bin/ && \
-    wget -O $ROOTFS/usr/local/bin/docker-compose \"https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)\" && \
-    chmod a+x $ROOTFS/usr/local/bin/docker-compose" \
-    "$TMP/provisioning.log"
+#run "Installing Docker Compose" \
+#    "mkdir -p $ROOTFS/usr/local/bin/ && \
+#    wget -O $ROOTFS/usr/local/bin/docker-compose \"https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)\" && \
+#    chmod a+x $ROOTFS/usr/local/bin/docker-compose" \
+#    "$TMP/provisioning.log"
+#
