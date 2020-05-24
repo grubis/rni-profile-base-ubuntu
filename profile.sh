@@ -43,8 +43,6 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		apt update && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages} && \
-        sleep 30 && \
-        chmod 777 /var/lib/iotedge/*.sock && \
         dmidecode -s system-uuid | sed 's:-::g' > /etc/iotedge/uuid.txt && \
         dmidecode -s system-serial-number > /etc/iotedge/serial.txt\"'" \
      ${PROVISION_LOG}  
