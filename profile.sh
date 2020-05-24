@@ -41,7 +41,7 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
 		mkdir /etc/iotedge && \
 		apt update && \
-		apt remove -y containerd
+		apt remove -y containerd && \
         tasksel install ${ubuntu_bundles} && \
         apt install -y ${ubuntu_packages} && \
         dmidecode -s system-uuid | sed 's:-::g' > /etc/iotedge/uuid.txt && \
