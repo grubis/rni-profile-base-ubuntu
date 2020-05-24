@@ -17,7 +17,7 @@ fi
 
 # --- Add Packages
 ubuntu_bundles="openssh-server"
-ubuntu_packages="iotedge wget"
+ubuntu_packages="moby-engine moby-cli containerd iotedge wget"
 
 # --- List out any docker images you want pre-installed separated by spaces. ---
 pull_sysdockerimagelist=""
