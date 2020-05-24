@@ -38,11 +38,13 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
         curl https://packages.microsoft.com/config/ubuntu/18.04/multiarch/prod.list > ./microsoft-prod.list && \
         cp ./microsoft-prod.list /etc/apt/sources.list.d/ && \
         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
+	tasksel install ${ubuntu_bundles} && \
 		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
 		mkdir /etc/iotedge && \
 		apt update && \
 		apt remove -y containerd && \
-        tasksel install ${ubuntu_bundles} && \
+		apt purge -y containerd && \
+		apt clean -y && \
         apt install -y ${ubuntu_packages} && \
         dmidecode -s system-uuid | sed 's:-::g' > /etc/iotedge/uuid.txt && \
         dmidecode -s system-serial-number > /etc/iotedge/serial.txt\"'" \
