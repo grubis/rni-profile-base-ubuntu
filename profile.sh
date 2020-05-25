@@ -17,7 +17,7 @@ fi
 
 # --- Add Packages
 ubuntu_bundles="openssh-server"
-ubuntu_packages="moby-engine moby-cli containerd iotedge wget"
+ubuntu_packages="moby-engine moby-cli iotedge wget"
 
 # --- List out any docker images you want pre-installed separated by spaces. ---
 pull_sysdockerimagelist=""
@@ -42,9 +42,6 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
 		mkdir /etc/iotedge && \
 		apt update && \
-		apt remove -y containerd && \
-		apt purge -y containerd && \
-		apt clean -y && \
         apt install -y ${ubuntu_packages} && \
         dmidecode -s system-uuid | sed 's:-::g' > /etc/iotedge/uuid.txt && \
         dmidecode -s system-serial-number > /etc/iotedge/serial.txt\"'" \
