@@ -41,15 +41,14 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		tasksel install ${ubuntu_bundles} && \
 		cp ./microsoft.gpg /etc/apt/trusted.gpg.d/ && \
 		mkdir /etc/iotedge && \
-		mkdir /var/lib/iotedge && \
-		touch /var/lib/iotedge/mgmt.sock && \
+		apt update && \
+        apt install -y ${ubuntu_packages} && \
+        touch /var/lib/iotedge/mgmt.sock && \
 		touch /var/lib/iotedge/workload.sock && \
 		chown iotedge:iotedge /var/run/iotedge/mgmt.sock && \
 		chown iotedge:iotedge /var/run/iotedge/workload.sock && \
 		chmod 777 /var/run/iotedge/mgmt.sock && \
 		chmod 777 /var/run/iotedge/workload.sock && \
-		apt update && \
-        apt install -y ${ubuntu_packages} && \
         dmidecode -s system-uuid | sed 's:-::g' > /etc/iotedge/uuid.txt && \
         dmidecode -s system-serial-number > /etc/iotedge/serial.txt\"'" \
      ${PROVISION_LOG}  
