@@ -49,9 +49,7 @@ run "Installing Extra Packages on Ubuntu ${param_ubuntuversion}" \
 		chmod 777 /var/lib/iotedge/workload.sock && \
         dmidecode -s system-uuid | sed 's:-::g' > /etc/iotedge/uuid.txt && \
         dmidecode -s system-serial-number > /etc/iotedge/serial.txt && \
-	if [[ -z $(grep '[^[:space:]]' /etc/iotedge/serial.txt) ]]; then \
-	  cut -c 1-8 /etc/iotedge/uuid.txt > /etc/iotedge/serial.txt \
-	fi\"'" \
+	if [[ -z $(grep '[^[:space:]]' /etc/iotedge/serial.txt) ]]; then cut -c 1-8 /etc/iotedge/uuid.txt > /etc/iotedge/serial.txt; fi\"'" \
      ${PROVISION_LOG}  
 
 echo "Applying IoT Configuration" > dev/tty0
